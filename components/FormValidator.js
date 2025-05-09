@@ -9,7 +9,23 @@ class FormValidator {
     this._formEl = formEl;
   }
 
-  _checkInputValidity(){
+_showInputError(){
+const errorElementId = `#${inputElement.id}-error`;
+  const errorElement = formElement.querySelector(errorElementId);
+  inputElement.classList.add(this._inputErrorClass);
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add(this._errorClass);
+}
+
+_hideInputError(inputElement){
+    const errorElementId = `#${inputElement.id}-error`;
+  const errorElement = formElement.querySelector(errorElementId);
+  inputElement.classList.remove(this._inputErrorClass);
+  errorElement.classList.remove(this._errorClass);
+  errorElement.textContent = "";
+}
+
+  _checkInputValidity(inputElement){
       if (!inputElement.validity.valid) {
     showInputError(
       formElement,
@@ -18,7 +34,7 @@ class FormValidator {
       settings,
     );
   } else {
-    hideInputError(formElement, inputElement, settings);
+    this._hideInputError(this._formEl, inputElement);
   }
   }
 
