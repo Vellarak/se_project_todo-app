@@ -32,7 +32,7 @@ _hideInputError(inputElement){
       inputElement.validationMessage,
     );
   } else {
-    this._hideInputError(this._formEl, inputElement);
+    this._hideInputError(inputElement);
   }
   }
 
@@ -65,7 +65,7 @@ _hideInputError(inputElement){
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(buttonElement, settings);
+        this._toggleButtonState(buttonElement);
       });
     });
   }
