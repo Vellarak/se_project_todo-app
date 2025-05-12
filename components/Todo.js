@@ -14,11 +14,11 @@ class Todo {
     });
   }
 
-  _todoDate(){
-    this._todoDate = this._todoElement.querySelector(".todo__date");
+  _showTodoDate(){
+    this._showTodoDate = this._todoElement.querySelector(".todo__date");
      const dueDate = new Date(this._data.date);
   if (!isNaN(dueDate)) {
-    this._todoDate.textContent = `Due: ${dueDate.toLocaleString("en-US", {
+    this._showTodoDate.textContent = `Due: ${dueDate.toLocaleString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -47,7 +47,7 @@ class Todo {
     
     this._generateCheckedboxEl();
     this._setEventListeners();
-    this._todoDate();
+    this._showTodoDate();
 
     return this._todoElement;
   }
