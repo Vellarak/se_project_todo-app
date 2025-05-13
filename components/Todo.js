@@ -15,10 +15,10 @@ class Todo {
   }
 
   _showTodoDate(){
-    this._showTodoDate = this._todoElement.querySelector(".todo__date");
+    this._todoDate = this._todoElement.querySelector(".todo__date");
      const dueDate = new Date(this._data.date);
   if (!isNaN(dueDate)) {
-    this._showTodoDate.textContent = `Due: ${dueDate.toLocaleString("en-US", {
+    this._todoDate.textContent = `Due: ${dueDate.toLocaleString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
