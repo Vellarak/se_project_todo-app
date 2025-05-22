@@ -1,13 +1,21 @@
-import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 import { initialTodos, validationConfig } from "../utils/constants.js";
 import Todo from "../components/Todo.js";
-import FormValidator from '../components/FormValidator.js';
+import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import Popup from "../components/Popup.js";
+import popupWithForm from "../components/PopupWithForm.js";
 
 const addTodoButton = document.querySelector(".button_action_add");
-const addTodoPopup = document.querySelector("#add-todo-popup");
+const addTodoPopUpElement = document.querySelector("#add-todo-popup");
 const addTodoForm = document.forms["add-todo-form"];
-const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
+const addTodoCloseBtn = addTodoPopUpElement.querySelector(".popup__close");
 const todosList = document.querySelector(".todos__list");
+
+const addTodoPopUp = new popupWithForm({
+  popupSelector: "#add-todo-popup",
+  handleFormSubmit: () => {},
+});
 
 function renderTodo(todoData) {
   const todo = generateTodo(todoData);
@@ -28,12 +36,21 @@ const generateTodo = (data) => {
   return todoElement;
 };
 
+//Section instance
+const section = new Section({
+  items: initialTodos,
+  renderer: generateTodo,
+  containerSelector: ".todo__list",
+});
+
+section.renderItems();
+
 addTodoButton.addEventListener("click", () => {
-  openModal(addTodoPopup);
+  openModal(addTodoPopUpElement);
 });
 
 addTodoCloseBtn.addEventListener("click", () => {
-  closeModal(addTodoPopup);
+  closeModal(addTodoPopUpElement);
 });
 
 addTodoForm.addEventListener("submit", (evt) => {
@@ -47,14 +64,14 @@ addTodoForm.addEventListener("submit", (evt) => {
 
   const id = uuidv4();
   const values = { name, date, id };
-  renderTodo(values);  
+  renderTodo(values);
 
   newTodoValidator.resetValidation();
-  closeModal(addTodoPopup);
+  closeModal(addTodoPopUpElement);
 });
 
 initialTodos.forEach((item) => {
-  renderTodo(item);  
+  renderTodo(item);
 });
 
 const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
