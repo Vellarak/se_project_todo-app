@@ -14,27 +14,34 @@ const todosList = document.querySelector(".todos__list");
 
 const addTodoPopUp = new popupWithForm({
   popupSelector: "#add-todo-popup",
-  handleFormSubmit: () => {},
+  handleFormSubmit: (inputValues) => {
+    const name = inputValues.name;
+    const dateInput = inputValues.date;
+  },
 });
+
+addTodoPopUp.setEventListeners();
 
 function renderTodo(todoData) {
   const todo = generateTodo(todoData);
   todosList.append(todo);
 }
 
-const openModal = (modal) => {
-  modal.classList.add("popup_visible");
-};
-
-const closeModal = (modal) => {
-  modal.classList.remove("popup_visible");
-};
-
 const generateTodo = (data) => {
   const todo = new Todo(data, "#todo-template");
   const todoElement = todo.getView();
   return todoElement;
 };
+
+function handleEscapeClose(evt) {
+  if (evt.key === "Escape") {
+    addTodoPopUp.close();
+  }
+}
+
+addTodoButton.addEventListener("click", () => {
+  addTodoPopUp.open();
+});
 
 //Section instance
 const section = new Section({
@@ -45,30 +52,20 @@ const section = new Section({
 
 section.renderItems();
 
-addTodoButton.addEventListener("click", () => {
-  openModal(addTodoPopUpElement);
-});
+// addTodoForm.addEventListener("submit", (evt) => {
+//   evt.preventDefault();
 
-addTodoCloseBtn.addEventListener("click", () => {
-  closeModal(addTodoPopUpElement);
-});
+//   // Create a date object and adjust for timezone
+//   const date = new Date(dateInput);
+//   date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
 
-addTodoForm.addEventListener("submit", (evt) => {
-  evt.preventDefault();
-  const name = evt.target.name.value;
-  const dateInput = evt.target.date.value;
+//   const id = uuidv4();
+//   const values = { name, date, id };
+//   renderTodo(values);
 
-  // Create a date object and adjust for timezone
-  const date = new Date(dateInput);
-  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
-
-  const id = uuidv4();
-  const values = { name, date, id };
-  renderTodo(values);
-
-  newTodoValidator.resetValidation();
-  closeModal(addTodoPopUpElement);
-});
+//   newTodoValidator.resetValidation();
+//   addTodoPopUp.close();
+// });
 
 initialTodos.forEach((item) => {
   renderTodo(item);
