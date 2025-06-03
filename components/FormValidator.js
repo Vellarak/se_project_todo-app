@@ -67,12 +67,13 @@ class FormValidator {
     });
   }
 
-  enableValidation() {
-    this._formEl.addEventListener("submit", (evt) => {
-      evt.preventDefault();
-    });
-    this._setEventListeners();
-  }
+ enableValidation() {
+  this._formEl.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+    this.resetValidation(); 
+  });
+  this._setEventListeners();
+}
 
   resetValidation() {
     this._formEl.reset();

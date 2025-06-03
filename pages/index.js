@@ -8,9 +8,7 @@ import popupWithForm from "../components/PopupWithForm.js";
 import TodoCounter from "../components/TodoCounter.js";
 
 const addTodoButton = document.querySelector(".button_action_add");
-const addTodoPopUpElement = document.querySelector("#add-todo-popup");
 const addTodoForm = document.forms["add-todo-form"];
-const addTodoCloseBtn = addTodoPopUpElement.querySelector(".popup__close");
 const todosList = document.querySelector(".todos__list");
 
 const todoCounter = new TodoCounter(initialTodos, ".counter__text");
@@ -26,7 +24,8 @@ const addTodoPopUp = new popupWithForm({
     const id = uuidv4();
     const values = { name, date, id };
     renderTodo(values);
-    handleTotal(true);
+    todoCounter.updateTotal(true);
+    resetValidation();
   },
 });
 
@@ -36,27 +35,20 @@ function handleCheck(completed) {
   todoCounter.updateCompleted(completed);
 }
 
-function handleDelete(completed){
-  if (completed){
-    todoCounter.updateCompleted(false)
+function handleDelete(completed) {
+  if (completed) {
+    todoCounter.updateCompleted(false);
   }
-}
-
-function handleTotal(shouldIncrement) {
-  if (shouldIncrement) {
-    todoCounter.updateTotal(true);
-  } else {
-    todoCounter.updateTotal(false);
-  }
+  todoCounter.updateTotal(false);
 }
 
 function renderTodo(todoData) {
   const todo = generateTodo(todoData);
-  todosList.append(todo);
+  section.addItem(todo);
 }
 
 const generateTodo = (data) => {
-  const todo = new Todo(data, "#todo-template",handleCheck,handleDelete,handleTotal);
+  const todo = new Todo(data, "#todo-template",handleCheck,handleDelete);
   const todoElement = todo.getView();
   return todoElement;
 };
@@ -80,11 +72,9 @@ initialTodos.forEach((item) => {
 
 const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
 newTodoValidator.enableValidation();
-// addTodoForm.addEventListener("submit", (evt) => {
-//   evt.preventDefault();
 
 //   // Create a date object and adjust for timezone
 
-//   newTodoValidator.resetValidation();
+
 //   addTodoPopUp.close();
 // });
