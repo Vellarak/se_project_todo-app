@@ -25,7 +25,7 @@ const addTodoPopUp = new popupWithForm({
     const values = { name, date, id };
     renderTodo(values);
     todoCounter.updateTotal(true);
-    resetValidation();
+    
   },
 });
 
@@ -60,15 +60,11 @@ addTodoButton.addEventListener("click", () => {
 //Section instance
 const section = new Section({
   items: initialTodos,
-  renderer: generateTodo,
-  containerSelector: ".todo__list",
+  renderer: renderTodo,
+  containerSelector: ".todos__list",
 });
 
 section.renderItems();
-
-initialTodos.forEach((item) => {
-  renderTodo(item);
-});
 
 const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
 newTodoValidator.enableValidation();
